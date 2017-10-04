@@ -29,3 +29,5 @@ SOURCES += \
 
 HEADERS += \
         MainWindow.h
+
+DISTFILES +=
