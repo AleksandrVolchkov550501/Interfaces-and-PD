@@ -3,33 +3,56 @@
 #include <QDebug>
 #include <QMultiMap>
 #include <QFile>
+#include <QVBoxLayout>
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+Widget::Widget(QWidget *parent)
+    : QWidget(parent)
 {
     venDevStr = new QMultiMap<QString, QString>();
     venDevNum = new QMultiMap<QString, QString>();
+
     scanPCI();
+
+    pTable = new QTableWidget(venDevStr->size(), 2);
+    QStringList lst;
+
+    lst << "Vendor" << "Device";
+    pTable->setHorizontalHeaderLabels(lst);
+
+    QTableWidgetItem * pTableItem;
+    int i = 0;
+
+    for(QMultiMap<QString, QString>::iterator iter = venDevStr->begin(); iter != venDevStr->end(); iter++)
+    {
+        pTableItem = new QTableWidgetItem(iter.key());
+        pTable->setItem(i, 0, pTableItem);
+        pTableItem = new QTableWidgetItem(iter.value());
+        pTable->setItem(i, 1, pTableItem);
+        i++;
+    }
+
+    QVBoxLayout * pLayout = new QVBoxLayout();
+    pTable->resizeColumnsToContents();
+    this->resize(pTable->size());
+    pLayout->addWidget(pTable);
+    this->setLayout(pLayout);
 }
 
-MainWindow::~MainWindow()
+Widget::~Widget()
 {
 
 }
 
-void MainWindow::scanPCI()
+void Widget::scanPCI()
 {
     QSettings settings("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Enum\\PCI",
                            QSettings::NativeFormat);
     QStringList groups = settings.childGroups();
-    qDebug() << groups << endl;
-
     foreach (QString s, groups) {
         venDevNum->insert(s.mid(4, 4).toLower(), s.mid(13, 4).toLower());
     }
-    qDebug() << *venDevNum << endl;
+
     QFile file("pci.ids.txt");
-    qDebug() << "Файл существует? Ответ: " << file.exists() << endl;
 
     file.open(QIODevice::Text | QIODevice::ReadOnly);
 
@@ -50,13 +73,11 @@ void MainWindow::scanPCI()
 
                 if(dev.left(5) != "\t" + i.value())
                     continue;
-                venDevStr->insert(ven, dev);
+                venDevStr->insert(ven.mid(6), dev.mid(7));
                 break;
             }
-            qDebug() << ven << " " << dev << endl;
             break;
         }
     }
-    qDebug() << *venDevStr << endl;
     file.close();
 }

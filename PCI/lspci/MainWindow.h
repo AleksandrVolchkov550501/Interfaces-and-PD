@@ -1,17 +1,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include <QPushButton>
 #include <QMultiMap>
+#include <QTableWidget>
 
-class MainWindow : public QMainWindow
+class Widget : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    Widget(QWidget *parent = 0);
+    ~Widget();
 
 public slots:
     void scanPCI();
@@ -19,8 +20,7 @@ public slots:
 private:
     QMultiMap<QString, QString> * venDevStr;
     QMultiMap<QString, QString> * venDevNum;
-    QPushButton * pScanButton;
-    QPushButton * pExitButton;
+    QTableWidget * pTable;
 
 };
 
