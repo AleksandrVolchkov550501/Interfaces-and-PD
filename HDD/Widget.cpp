@@ -17,6 +17,7 @@ Widget::Widget(QWidget *parent) :
 
     ui->progressBar->setValue(100 * diskInfo.getBusySpace() / diskInfo.getTotalSpace());
 
+    ui->l_ataStd->setText(diskInfo.getAtaStdSupportString());
     ui->l_MDMA->setText(diskInfo.getMDMAModsString());
     ui->l_PIO->setText(diskInfo.getPIOModsString());
     ui->l_UDMA->setText(diskInfo.getUDMAModsString());
