@@ -36,4 +36,5 @@ FORMS += \
         Widget.ui
 
 LIBS += \
-        -lKernel32
+        -lKernel32 \
+        -lPowrProf

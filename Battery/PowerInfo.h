@@ -6,6 +6,7 @@
 #include <QTimerEvent>
 #include <QTime>
 #include <windows.h>
+#include <powrprof.h>
 
 class PowerInfo : public QObject
 {
@@ -13,6 +14,7 @@ class PowerInfo : public QObject
 
 public:
     PowerInfo();
+    ~PowerInfo();
 
     qint8  ACLineStatus() const;
     qint8  BatteryFlag() const;
@@ -33,6 +35,9 @@ signals:
 private:
     QTime lifeTime;
     _SYSTEM_POWER_STATUS sps;
+    GUID * pCurPowerSheme;
+    DWORD oldPowerdownTimeout;
+
 };
 
 #endif // POWERINFO_H
