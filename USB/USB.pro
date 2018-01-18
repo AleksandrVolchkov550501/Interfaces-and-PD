@@ -32,3 +32,6 @@ HEADERS += \
 
 FORMS += \
         Widget.ui
+
+LIBS += \
+        -lSetupAPI

@@ -2,6 +2,13 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QDebug>
+#include <QByteArray>
+#include "Windows.h"
+#include "devguid.h"
+#include "SetupAPI.h"
+#include "Dbt.h"
+#include "devpkey.h"
 
 namespace Ui {
 class Widget;
@@ -17,6 +24,11 @@ public:
 
 private:
     Ui::Widget *ui;
+
+    HDEVINFO info;
+
+public slots:
+    void getFun();
 };
 
 #endif // WIDGET_H
