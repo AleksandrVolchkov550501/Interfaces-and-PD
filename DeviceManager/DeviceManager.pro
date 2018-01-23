@@ -25,7 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        Widget.cpp
+        Widget.cpp \
+    Device.cpp
 
 HEADERS += \
-        Widget.h
+        Widget.h \
+    Device.h
+
+
+LIBS += \
+        -lSetupAPI \
+        -lAdvapi32 \
+        -lCfgmgr32
