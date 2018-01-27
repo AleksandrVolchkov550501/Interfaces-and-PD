@@ -25,7 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        Widget.cpp
+        Widget.cpp \
+    WifiInfo.cpp
 
 HEADERS += \
-        Widget.h
+        Widget.h \
+    WifiInfo.h
+
+LIBS    += \
+        -lwlanapi
+        -lole32
