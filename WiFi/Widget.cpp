@@ -5,12 +5,30 @@
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
+    update();
+    tableHeaders << "SSID" << "AuthType" << "MAC" << "Quality";
+    pTable = new QTableWidget(wifiPoints.size(), tableHeaders.size());
+    int i = 0;
+    QTableWidgetItem * pItem;
+
+    foreach (WifiInfo * p, wifiPoints.values()) {
+        pItem = new QTableWidgetItem(p->getSSID());
+        pTable->setItem(i, 0, pItem);
+        pItem = new QTableWidgetItem(p->getAuthType());
+        pTable->setItem(i, 1, pItem);
+        pItem = new QTableWidgetItem(p->getMAC());
+        pTable->setItem(i, 2, pItem);
+        pItem = new QTableWidgetItem(p->getSignalQuality());
+        pTable->setItem(i, 3, pItem);
+        i++;
+    }
+
     QPushButton * pButton = new QPushButton("Сканировать!");
     QVBoxLayout * pLayout = new QVBoxLayout();
+    pLayout->addWidget(pTable);
     pLayout->addWidget(pButton);
     this->setLayout(pLayout);
-    connect(pButton, &QPushButton::pressed, this, &Widget::fun);
-
+    connect(pButton, &QPushButton::pressed, this, &Widget::update);
 
 }
 
@@ -65,9 +83,9 @@ int Widget::update()
             pWifiInfo->setSSID(QString((char *)pBssEntry->dot11Ssid.ucSSID));
             pWifiInfo->setSignalQuality(QString("%1 (%2 dBm)").arg(pBssEntry->uLinkQuality).arg(pBssEntry->lRssi));
 
-            qDebug () << "MAC: " << mac.toUpper();
-            qDebug () << "SSID: " << pWifiInfo->getSSID();
-            qDebug () << "Signal Quality: " << pWifiInfo->getSignalQuality();
+//            qDebug () << "MAC: " << mac.toUpper();
+//            qDebug () << "SSID: " << pWifiInfo->getSSID();
+//            qDebug () << "Signal Quality: " << pWifiInfo->getSignalQuality();
 
             wifiPoints.insert(pWifiInfo->getSSID(), pWifiInfo);
         }
@@ -89,7 +107,6 @@ int Widget::update()
             QList<WifiInfo *> list = wifiPoints.values(ssid);
             foreach (WifiInfo * p, list) {
                 p->setAuthType(authAlgorithm(pAvNet->dot11DefaultAuthAlgorithm));
-                qDebug() << "AuthType: " << p->getAuthType();
             }
         }
     }

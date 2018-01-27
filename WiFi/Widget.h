@@ -9,12 +9,17 @@
 #include <QDebug>
 #include <QMap>
 #include <QList>
+#include <QTableWidget>
 #include "wifiInfo.h"
 
 class Widget : public QWidget
 {
     Q_OBJECT
+
     QMultiMap<QString, WifiInfo * > wifiPoints;
+
+    QTableWidget *  pTable;
+    QStringList     tableHeaders;
 
 public:
     Widget(QWidget *parent = 0);
