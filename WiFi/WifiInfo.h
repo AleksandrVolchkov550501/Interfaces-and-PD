@@ -12,6 +12,7 @@ class WifiInfo : public QObject
     QString MAC;
     QString authType;
     QString guid;
+    QString profName;
 
 public:
     explicit WifiInfo(QObject *parent = nullptr);
@@ -30,6 +31,9 @@ public:
 
     QString getGuid() const;
     void setGuid(const QString &value);
+
+    QString getProfName() const;
+    void setProfName(const QString &value);
 
 signals:
 

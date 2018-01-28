@@ -50,6 +50,16 @@ void WifiInfo::setGuid(const QString &value)
     guid = value;
 }
 
+QString WifiInfo::getProfName() const
+{
+    return profName;
+}
+
+void WifiInfo::setProfName(const QString &value)
+{
+    profName = value;
+}
+
 WifiInfo::WifiInfo(QObject *parent) : QObject(parent)
 {
 
